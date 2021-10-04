@@ -1,0 +1,27 @@
+{
+  "name": "fithub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanselberkant/Fithub.git"
+  },
+  "author": "tanselberkant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanselberkant/Fithub/issues"
+  },
+  "homepage": "https://github.com/tanselberkant/Fithub#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  }
+}
