@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        body{
+    background-color:#0e1729;
+    font-size:14px;
+    color:#fff;
+}
+.simple-login-container{
+    width:300px;
+    max-width:100%;
+    margin:50px auto;
+}
+.simple-login-container h1{
+    text-align:center;    
+}
+
+.simple-login-container .btn-login{
+    background-color:#FF5964;
+    color:#fff;
+}
+a{
+    color:#fff;
+}
+    </style>
+</head>
+<body>   
+    <form method="POST" action="users/signup" novalidate>
+        <div class="simple-login-container">
+            <h1 class="mb-4">Sign Up</h1>
+            <% if(flashMessages) { %> 
+                <% if(flashMessages.success) { %>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="alert alert-success"> <%= flashMessages.success %> </div>
+                        </div>
+                    </div>
+                <% } else if(flashMessages.error)  { %>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="alert alert-danger"> <%= flashMessages.error %> </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="text" name="name" class="form-control" placeholder="Your full name...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="email" name="email" class="form-control" placeholder="Your e-mail...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Your password...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="submit" class="btn btn-block btn-success" value="Sign Up">
+                </div>
+            </div>        
+        </div>
+    </form>
+
+
+    <script src="/js/jquery.min.js"></script>
+</body>
+</html>

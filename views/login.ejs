@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        body{
+    background-color:#0e1729;
+    font-size:14px;
+    color:#fff;
+}
+.simple-login-container{
+    width:300px;
+    max-width:100%;
+    margin:50px auto;
+}
+.simple-login-container h1{
+    text-align:center;    
+}
+
+.simple-login-container .btn-login{
+    background-color:#FF5964;
+    color:#fff;
+}
+a{
+    color:#fff;
+}
+    </style>
+</head>
+<body>   
+    <form method="POST" action="">
+        <div class="simple-login-container">
+            <h1 class="mb-4">Sign In</h1>            
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="email" class="form-control" placeholder="Your e-mail..." required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="password" placeholder="Your password..." class="form-control" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="submit" class="btn btn-block btn-success" value="Sign In">
+                </div>
+            </div>        
+        </div>
+    </form>
+
+
+    <script src="/js/jquery.min.js"></script>
+</body>
+</html>
