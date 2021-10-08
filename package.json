@@ -29,6 +29,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.12.2",
     "mongoose": "^6.0.9",
-    "slugify": "^1.6.1"
+    "slugify": "^1.6.1",
+    "winston": "^3.3.3"
   }
 }
