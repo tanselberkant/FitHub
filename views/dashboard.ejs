@@ -217,16 +217,69 @@
                     </tr>
                 </thead>
                 <tbody>
+                   <% for(let i = 0; i< users.length; i++) { %>
                     <tr class="myBg-Blue">
-                        <td class="pl-lg-5 pl-md-3 pl-1 mytablename">Client Name</td>
-                        <td class="pt-3">Client Email</td>
-                        <td class="pt-3">Client createdAt</td>
-                        <td class="pt-3">Client | Trainer | Admin</span></td>
-                        <td class="pt-3"><button class="btn-sm btn-warning">Upd</button></td>
-                        <td class="pt-3"><button class="btn-sm btn-danger">Del</button></td>
+                        <td class="pl-lg-5 pl-md-3 pl-1 mytablename"> <%= users[i].name %> </td>
+                        <td class="pt-3"> <%= users[i].email %> </td>
+                        <td class="pt-3"> <%= users[i].createdAt %> </td>
+                        <td class="pt-3"> <%= users[i].role %> </span></td>
+                        <td class="pt-3">
+                            <button class="btn-sm btn-warning" data-toggle="modal" data-target="#update<%= users[i]._id %>"> Upd </button>
+                        </td>
+                        <td class="pt-3">
+                            <a class="btn-sm btn-danger">Del</a>
+                        </td>
                     </tr>
+                    <!-- Update User Modal -->
+                    <div class="modal fade" id="update<%= users[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update My Profile</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="/users/dashboard/<%= users[i]._id %>?_method=PUT">
+                                        <div class="form-group">
+                                            <select class="form-control" name="role">
+                                                <option>client</option>
+                                                <option>trainer</option>                                                
+                                            </select>
+                                        </div>                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-success">Update User </button>
+                                        </div>                    
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <% } %>
                 </tbody>
             </table>
+            <!-- Listing User Pagination -->
+            <div>
+                <nav>
+                    <% if(pages > 0) { %>
+                    <ul class="pagination flex-wrap d-flex justify-content-center">
+                        <% for (let i = 1; i <= pages; i++) { %>
+                            <% if(i == current) { %>
+                            <li class="page-item active"><a class="page-link" href="/users/dashboard/?page=<%= i %>" data-abc="true"> <%= i %> </a></li>
+                            <% }  else if (i < pages) { %>
+                            <li class="page-item"><a class="page-link" href="/users/dashboard/?page=<%= i %>" data-abc="true"> <%= i %> </a></li>
+                            <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/users/dashboard/?page=<%= i %>" data-abc="true"><i class="fa fa-angle-right"></i></a></li>
+                            <% } %>
+                        <% } %>                                                                                                                                                                        
+                    </ul>
+                    <% } %>
+                </nav>
+            </div>
         </div>
         <!-- listing Categories and Proficiencies-->
         <div id="listingCategoriesAdmin">

@@ -58,12 +58,21 @@ exports.getDashboardPage = async (req,res) => {
   try {    
     const user = await User.findOne({_id : req.session.userID})
     const categories = await Category.find();
-    const proficiencies = await Proficiency.find();
+    const proficiencies = await Proficiency.find();    
+    const page = req.query.page || 1;
+    const userPerPage = 5;
+    const totalUsers = await User.find().countDocuments();
+
+    const users = await User.find().sort('-createdAt').skip((page - 1) * userPerPage).limit(userPerPage)
+
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
       user,
       categories,
-      proficiencies
+      proficiencies,
+      users,
+      current: page,
+      pages: Math.ceil(totalUsers / userPerPage)
     })
   } catch (error) {
     res.status(400).json({
@@ -80,6 +89,7 @@ exports.updateUserProfile = async (req,res) => {
     user.weight = req.body.weight
     user.phone = req.body.phone
     user.healtProblem = req.body.healtProblem
+    user.role = req.body.role
     user.save();
     req.flash('success','You updated your profile successfully')
     res.status(200).redirect('/users/dashboard')
@@ -88,6 +98,3 @@ exports.updateUserProfile = async (req,res) => {
     console.log(error);
   }  
 }
-
-
-    
