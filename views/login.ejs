@@ -31,22 +31,37 @@ a{
     </style>
 </head>
 <body>   
-    <form method="POST" action="">
+    <form method="POST" action="/users/signin">
         <div class="simple-login-container">
-            <h1 class="mb-4">Sign In</h1>            
+            <h1 class="mb-4">Sign In</h1>
+            <% if(flashMessages) { %>
+                <% if(flashMessages.success) { %>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="alert alert-success"> <%= flashMessages.success %> </div>
+                        </div>
+                    </div>
+                <% } else if(flashMessages.error)  { %>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="alert alert-danger"> <%= flashMessages.error %> </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <input type="email" class="form-control" placeholder="Your e-mail..." required>
+                    <input type="email" name="email" class="form-control" placeholder="Your e-mail..." required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <input type="password" placeholder="Your password..." class="form-control" required>
+                    <input type="password" name="password" placeholder="Your password..." class="form-control" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <input type="submit" class="btn btn-block btn-success" value="Sign In">
+                    <button type="submit" class="btn btn-block btn-success">Sıgn In</button>
                 </div>
             </div>        
         </div>

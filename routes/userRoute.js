@@ -17,6 +17,9 @@ router.route('/signup').post([
         })
     })
 ], authController.createUser);
-
+router.route('/signin').post(authController.loginUser);
+router.route('/logout').get(authController.logOutUser);
+router.route('/dashboard').get(authController.getDashboardPage);
+router.route('/dashboard/:id').put(authController.updateUserProfile);
 
 module.exports = router;

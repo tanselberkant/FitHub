@@ -4,21 +4,25 @@ const ejs = require('ejs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const pageRoute = require('./routes/pageRoute');
 const userRoute = require('./routes/userRoute');
 const logger = require('./logger');
 
 const app = express();
 
+// Global Variable
+global.userIN = null;
+
 // Connecting Db
 const dbUrl = 'mongodb://localhost/fithub-db';
 mongoose
   .connect(dbUrl)
   .then(() => {
-    console.log('Db Connected succesfully');    
+    console.log('Db Connected succesfully');
   })
   .catch((err) => {
-    console.log(err);    
+    console.log(err);
   });
 
 // TEMPLATE ENGINE
@@ -43,8 +47,17 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 // Routes
+app.use('*', (req, res, next) => {
+  userIN = req.session.userID;
+  next();
+});
 app.use('/', pageRoute);
 app.use('/users', userRoute);
 
@@ -54,8 +67,8 @@ const port = process.env.PORT || 3000;
 // logger.warn('wanr'),
 // logger.info('info'),
 app.listen(port, () => {
-  logger.info(`App is running in ${port}`)
-}) 
+  logger.info(`App is running in ${port}`);
+});
 
 // app.listen(port, () => {
 //   console.log(`Sunucu port ${port} baslatildi `);

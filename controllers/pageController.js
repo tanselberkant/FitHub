@@ -1,5 +1,8 @@
+const logger = require('../logger')
+
 exports.getIndexPage = (req, res) => {
-  res.status(200).render('index', {
+  logger.info(req.session.userID);
+  res.status(200).render('index', { 
     page_name:'index'
   });
 };

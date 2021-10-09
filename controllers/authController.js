@@ -1,9 +1,10 @@
 const { validationResult } = require('express-validator');
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);    
+    const user = await User.create(req.body);
     res.status(201).redirect('/login');
   } catch (error) {
     const errors = validationResult(req);
@@ -15,3 +16,72 @@ exports.createUser = async (req, res) => {
     res.status(400).redirect('/register');
   }
 };
+
+exports.loginUser = (req, res) => {
+  try {
+    const { email, password} = req.body;
+    User.findOne({ email: email }, (err, user) => {
+      if (user) {
+        bcrypt.compare(password, user.password, (err, success) => {
+          if (success) {
+            req.session.userID = user._id;
+            res.status(200).send('You are logged in');
+          }
+          else {
+            req.flash('error','Your password is not correct')
+            res.status(400).redirect('/login')    
+          }
+        });
+      } else {
+        req.flash('error', 'User is Not Exist!')
+        res.status(400).redirect('/login')
+      }
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+};
+
+exports.logOutUser = (req,res) => {
+  req.session.destroy(() => {
+    res.redirect('/')
+  })
+}
+
+exports.getDashboardPage = async (req,res) => {
+
+  try {    
+    const user = await User.findOne({_id : req.session.userID})
+    res.status(200).render('dashboard', {
+      page_name: 'dashboard',
+      user
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error
+    })
+  }
+}
+
+exports.updateUserProfile = async (req,res) => {
+  try {    
+    const user = await User.findOne({_id: req.params.id})
+    user.height = req.body.height
+    user.weight = req.body.weight
+    user.phone = req.body.phone
+    user.healtProblem = req.body.healtProblem
+    user.save();
+    req.flash('success','You updated your profile successfully')
+    res.status(200).redirect('/users/dashboard')
+  } catch (error) {
+    req.flash('error','Something went wrong!')
+    console.log(error);
+  }
+}
+
+
+    

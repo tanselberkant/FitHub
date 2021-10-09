@@ -1,0 +1,114 @@
+<%- include ('partials/_header.ejs') %>
+
+<% if(userIN) { %>
+
+    <% if(user.role === 'client') { %>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="card p-3 py-4">
+                    
+                    <!--Update Flash Messages-->
+                    <div>
+                    <% if(flashMessages) { %> 
+                        <% if(flashMessages.success) { %>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <div class="alert alert-success"> <%= flashMessages.success %> </div>
+                                </div>
+                            </div>
+                        <% } else if(flashMessages.error)  { %>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <div class="alert alert-danger"> <%= flashMessages.error %> </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+    
+                    </div>
+                    
+                    <% if(user.image)  { %>
+                    <div class="text-center"> <img src="<%= user.image %>" width="100" class="rounded-circle"> </div>     
+                    <% } else if(!user.image) { %>
+                    <div class="text-center"> <img src="/images/userProfile.png" width="100" class="rounded-circle"> </div>
+                    <% } %>
+                    
+                    <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white">Client</span>
+                        <h3 class="mt-2 mb-0"> <%= user.name %> </h3>                                                                        
+                        <% if(user.height) { %>
+                        <p style="font-size: 14px;"><span style="color: #8E24AA !important; font-weight: 700 !important;">Height: </span>  <%= user.height %> cm</p>
+                        <% } %>
+                        <% if(user.weight) { %>
+                        <p style="font-size: 14px;"><span style="color: #8E24AA !important; font-weight: 700 !important;">Weight: </span>  <%= user.weight %> kg</p>
+                        <% } %>
+                        <% if(user.phone) { %>
+                        <p style="font-size: 14px;"><span style="color: #8E24AA !important; font-weight: 700 !important;">Phone: </span>  <%= user.phone %></p>                            
+                        <% } %>
+                        <% if(user.email) { %>
+                        <p style="font-size: 14px;"><span style="color: #8E24AA !important; font-weight: 700 !important;">E-mail: </span>  <%= user.email %></p>
+                        <% } %>
+                        <% if(user.healtProblem) { %>
+                        <h5 class="mt-2 mb-0" style="color: #8E24AA !important;">Health Issue</h5>
+                        <div class="px-4 mt-1" style="font-size: 11px;">
+                            <p class="fonts"><%= user.healtProblem %></p>
+                        </div>
+                        <% } %>
+                        <div class="myCustomButtons mt-3">
+                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#updateMyProfile">
+                                Update Profile
+                            </button> 
+                            <a class="btn btn-primary px-4 ms-3">My Programs</a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Profile Modal -->
+    <div class="modal fade" id="updateMyProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update My Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/users/dashboard/<%= user._id %>?_method=PUT">
+                    <div class="form-group">
+                        <input type="number" name="height" class="form-control" placeholder="Your Height">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="weight" class="form-control" placeholder="Your weight">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" class="form-control" placeholder="Your phone">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="healtProblem" rows="2" placeholder="If you have, type your health issue"></textarea>
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="file" class="form-control-file" name="image">
+                    </div> -->
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+            </div>
+        </div>
+        </div>
+    </div>
+    <% } %>
+
+
+<% } %>
+
+<%- include('partials/_footer.ejs') %>
+
+
+

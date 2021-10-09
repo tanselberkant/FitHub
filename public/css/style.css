@@ -939,3 +939,25 @@ ul.link_menu li a {
 .margin_0 {
      margin: 0 !important;
 }
+
+
+/* My Custom Dashboard */
+.myCustomButtons a,button:nth-child(1) {
+     border: 1px solid #8E24AA !important;
+     color: #8E24AA;
+     height: 40px
+ }
+ 
+ .myCustomButtons a,button:nth-child(1):hover {
+     border: 1px solid #8E24AA !important;
+     color: #fff !important; 
+     height: 40px;
+     background-color: #8E24AA
+ }
+ 
+ .myCustomButtons a,button:nth-child(2) {
+     border: 1px solid #8E24AA !important;
+     background-color: #8E24AA;
+     color: #fff !important;
+     height: 40px
+ }
