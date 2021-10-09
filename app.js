@@ -5,9 +5,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const logger = require('./logger');
 const pageRoute = require('./routes/pageRoute');
 const userRoute = require('./routes/userRoute');
-const logger = require('./logger');
+const profRoute = require('./routes/proficiencyRoute');
+const categoryRoute = require('./routes/categoryRoute');
 
 const app = express();
 
@@ -60,6 +62,10 @@ app.use('*', (req, res, next) => {
 });
 app.use('/', pageRoute);
 app.use('/users', userRoute);
+app.use('/categories', categoryRoute)
+app.use('/proficiencies', profRoute)
+
+
 
 const port = process.env.PORT || 3000;
 

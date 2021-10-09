@@ -942,22 +942,84 @@ ul.link_menu li a {
 
 
 /* My Custom Dashboard */
-.myCustomButtons a,button:nth-child(1) {
-     border: 1px solid #8E24AA !important;
-     color: #8E24AA;
-     height: 40px
+.myCardContainer {
+     margin-left: auto;
+    margin-right: auto;
+    transition: 0.3s
+}
+
+.myCardContainer:hover {
+     box-shadow: 0 0 45px gray
+ }
+
+.myRecommendedWeek {
+     width: 90px;
+     height: 30px;
+     background-color: #022c53;
+     color: white;
+     position: relative;
+     top: -30px;
+     padding-left: 10px;
+     font-size: 20px
+}
+
+.myCardContent {
+     padding-left: 10px;          
+     padding-right: 10px;
+     margin-left: auto;
+     margin-right: auto;     
+}
+
+.mytxt4 {
+     text-align: center;
+     font-size: 27px;
+     margin-bottom: 10px;
+     
+}
+ 
+.mytxt5 {           
+     text-align: center;
+     margin-bottom: 20px;   
+     color: #022c53;
+     font-size: 23px
+}
+ 
+.myCardFooter a {
+     padding-left: 80px;
+     margin-top: 15px;
+     margin-bottom: 15px;
+     margin-left: 150px;
+}
+
+.fa-check,
+.fa-minus {
+    color: 022c53
+}
+
+
+.myBg-Blue:hover {
+     background-color: #022c53;
+     color: #eee;
+     cursor: pointer
  }
  
- .myCustomButtons a,button:nth-child(1):hover {
-     border: 1px solid #8E24AA !important;
-     color: #fff !important; 
-     height: 40px;
-     background-color: #8E24AA
+ .myBg-Blue:hover .fa-check,
+ .myBg-Blue:hover .fa-minus {
+     background-color: #022c53;
+     color: #eee
  }
  
- .myCustomButtons a,button:nth-child(2) {
-     border: 1px solid #8E24AA !important;
-     background-color: #8E24AA;
-     color: #fff !important;
-     height: 40px
+ .table tbody td:first-child {
+     border-bottom-left-radius: 10px;
+     border-top-left-radius: 10px
  }
+ 
+ .table tbody td:last-child {
+     border-bottom-right-radius: 10px;
+     border-top-right-radius: 10px
+ }
+
+ .table thead th,
+.table td {
+    border: none
+}

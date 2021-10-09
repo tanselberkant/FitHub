@@ -1,6 +1,8 @@
 const { validationResult } = require('express-validator');
-const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const User = require('../models/User');
+const Category = require('../models/Category');
+const Proficiency = require('../models/Proficiency');
 
 exports.createUser = async (req, res) => {
   try {
@@ -55,9 +57,13 @@ exports.getDashboardPage = async (req,res) => {
 
   try {    
     const user = await User.findOne({_id : req.session.userID})
+    const categories = await Category.find();
+    const proficiencies = await Proficiency.find();
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
-      user
+      user,
+      categories,
+      proficiencies
     })
   } catch (error) {
     res.status(400).json({
@@ -80,7 +86,7 @@ exports.updateUserProfile = async (req,res) => {
   } catch (error) {
     req.flash('error','Something went wrong!')
     console.log(error);
-  }
+  }  
 }
 
 
