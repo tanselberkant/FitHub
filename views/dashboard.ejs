@@ -108,6 +108,12 @@
             <div class="modal-body">
                 <form method="post" action="/users/dashboard/<%= user._id %>?_method=PUT">
                     <div class="form-group">
+                        <input type="hidden" name="enrolledPrograms" class="form-control" value="<%= user.enrolledPrograms %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="role" class="form-control" value="<%= user.role %>">
+                    </div>                    
+                    <div class="form-group">
                         <input type="number" name="height" class="form-control" placeholder="Your Height">
                     </div>
                     <div class="form-group">
@@ -170,22 +176,8 @@
                     
                     <div class="text-center mt-3"> <span class="bg-primary p-1 px-4 rounded text-white">Admin</span>
                         <h3 class="mt-2 mb-0"> <%= user.name %> </h3>                                                                        
-                        <% if(user.height) { %>
-                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Height: </span>  <%= user.height %> cm</p>
-                        <% } %>
-                        <% if(user.weight) { %>
-                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Weight: </span>  <%= user.weight %> kg</p>
-                        <% } %>
-                        <% if(user.phone) { %>
-                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Phone: </span>  <%= user.phone %></p>                            
-                        <% } %>
-                        <% if(user.email) { %>
-                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">E-mail: </span>  <%= user.email %></p>
-                        <% } %>                        
-                        <div class=" mt-3">
-                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#updateMyProfile">
-                                Update Profile
-                            </button> 
+                                         
+                        <div class=" mt-3">                            
                             <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#addCategory">
                                 Add Category
                             </button>
@@ -348,6 +340,18 @@
                 <div class="modal-body">
                     <form method="post" action="/users/dashboard/<%= user._id %>?_method=PUT">
                         <div class="form-group">
+                            <input type="hidden" name="role" class="form-control" value="<%= user.role %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="healtProblem" class="form-control" value="<%= user.healtProblem %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="enrolledPrograms" class="form-control" value="<%= user.enrolledPrograms %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="proficiency" class="form-control" value="<%= user.proficiency %>">
+                        </div>
+                        <div class="form-group">
                             <input type="number" name="height" class="form-control" placeholder="Your Height">
                         </div>
                         <div class="form-group">
@@ -426,6 +430,184 @@
     <% } %>
      
 
+    <!-----------------------------------  USER ROLE TRAINER ---------------------------------------->
+    <% if(user.role === 'trainer') { %>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11">
+                <div class="card p-3 py-4">
+                    
+                    <!--Update Flash Messages-->
+                    <div>
+                    <% if(flashMessages) { %> 
+                        <% if(flashMessages.success) { %>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <div class="alert alert-success"> <%= flashMessages.success %> </div>
+                                </div>
+                            </div>
+                        <% } else if(flashMessages.error)  { %>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <div class="alert alert-danger"> <%= flashMessages.error %> </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+    
+                    </div>
+                    
+                    <% if(user.image)  { %>
+                    <div class="text-center"> <img src="<%= user.image %>" width="100" class="rounded-circle"> </div>     
+                    <% } else if(!user.image) { %>
+                    <div class="text-center"> <img src="/images/userProfile.png" width="100" class="rounded-circle"> </div>
+                    <% } %>
+                    
+                    <div class="text-center mt-3"> <span class="bg-primary p-1 px-4 rounded text-white">Trainer</span>
+                        <h3 class="mt-2 mb-0"> <%= user.name %> </h3>                                                                        
+                        <% if(user.height) { %>
+                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Height: </span>  <%= user.height %> cm</p>
+                        <% } %>
+                        <% if(user.weight) { %>
+                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Weight: </span>  <%= user.weight %> kg</p>
+                        <% } %>
+                        <% if(user.phone) { %>
+                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">Phone: </span>  <%= user.phone %></p>                            
+                        <% } %>
+                        <% if(user.email) { %>
+                        <p style="font-size: 14px;"><span style="color: #022c53 !important; font-weight: 700 !important;">E-mail: </span>  <%= user.email %></p>
+                        <% } %>
+                        <% if(user.proficiency) { %>
+                        <h5 class="mt-2 mb-0" style="color: #022c53 !important; font-weight: 700 !important;">My Proficiencies</h5>
+                            <% for (let i = 0; i < user.proficiency.length; i++) { %>
+                            <p style="font-size: 14px;"> <%= user.proficiency[i].name %> </p> 
+                            <% } %>
+                        <% } %>                        
+                        <div class=" mt-3">
+                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#updateMyProfile">
+                                Update Profile
+                            </button> 
+                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#addPrograms">
+                                Add Program
+                            </button>                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Listing Programs -->            
+        <div id="listingMyPrograms">
+            <div class="row d-flex justify-content-start m-1">
+                <div class="col-md-11 p-3 ml-3">
+                    <h3 style="color: #022c53 !important; font-weight: 700 !important;">Listing My Programs</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Profile Modal -->
+    <div class="modal fade" id="updateMyProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update My Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/users/dashboard/<%= user._id %>?_method=PUT">
+                        <div class="form-group">
+                            <input type="hidden" name="role" class="form-control" value="<%= user.role %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="healtProblem" class="form-control" value="<%= user.healtProblem %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="enrolledPrograms" class="form-control" value="<%= user.enrolledPrograms %>">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="height" class="form-control" placeholder="Your Height">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="weight" class="form-control" placeholder="Your weight">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="phone" class="form-control" placeholder="Your phone">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="proficiency">
+                                <% for (let i = 0; i < proficiencies.length; i++) { %>
+                                <option value="<%= proficiencies[i]._id %>"</option><%= proficiencies[i].name %></option>
+                                <% } %>
+                            </select>
+                        </div>                            
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </div>                    
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Program Modal -->
+    <div class="modal fade" id="addPrograms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Proficiency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/programs">                        
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control" placeholder="Program Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="recommendedWeek" class="form-control" placeholder="Recommended Week">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="category" aria-placeholder="Choose A Category">
+                                <% for (let i = 0; i < categories.length; i++) { %>
+                                <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="contents" class="form-control" placeholder="Program Content">
+                        </div>
+                        <div id="programContent"></div>
+                        <!-- For Auth-->
+                        <!--<div class="form-group">
+                            <input type="hidden" name="role" class="form-control" value="<%= user.role %>">
+                        </div> -->                                                
+                        <div class="">
+                            <input type="button" value="Add More Content" class="btn btn-primary" onclick="add_fields();">
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success">Create Program</button>
+                        </div>                    
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function add_fields() {
+            document.getElementById('programContent').innerHTML += 
+            `<div class="form-group"><input type="text" name="contents" class="form-control" placeholder="Program Content"></div>`;
+        }
+    </script>
+
+    <% } %>
 <% } %>
 
 <%- include('partials/_footer.ejs') %>

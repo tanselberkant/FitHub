@@ -10,6 +10,7 @@ const pageRoute = require('./routes/pageRoute');
 const userRoute = require('./routes/userRoute');
 const profRoute = require('./routes/proficiencyRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const programRoute = require('./routes/programRoute');
 
 const app = express();
 
@@ -64,7 +65,7 @@ app.use('/', pageRoute);
 app.use('/users', userRoute);
 app.use('/categories', categoryRoute)
 app.use('/proficiencies', profRoute)
-
+app.use('/programs', programRoute);
 
 
 const port = process.env.PORT || 3000;

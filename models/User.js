@@ -45,14 +45,18 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  enrolledPrograms: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program',
-  },
-  proficiency: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Proficiency',
-  },
+  enrolledPrograms: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Program',
+    },
+  ],
+  proficiency: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Proficiency',
+    },
+  ]
 });
 
 UserSchema.pre('validate', function (next) {
@@ -66,6 +70,8 @@ UserSchema.pre('validate', function (next) {
 UserSchema.pre('save', function (next) {
   const user = this;
   if (!user.isModified('password')) return next();
+  if (!user.isModified('role')) return next();
+  if (!user.isModified('proficiency')) return next();
 
   bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);

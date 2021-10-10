@@ -27,7 +27,7 @@ exports.loginUser = (req, res) => {
         bcrypt.compare(password, user.password, (err, success) => {
           if (success) {
             req.session.userID = user._id;
-            res.status(200).send('You are logged in');
+            res.status(200).redirect('/');
           }
           else {
             req.flash('error','Your password is not correct')
@@ -56,7 +56,7 @@ exports.logOutUser = (req,res) => {
 exports.getDashboardPage = async (req,res) => {
 
   try {    
-    const user = await User.findOne({_id : req.session.userID})
+    const user = await User.findOne({_id : req.session.userID}).populate('proficiency')
     const categories = await Category.find();
     const proficiencies = await Proficiency.find();    
     const page = req.query.page || 1;
@@ -90,6 +90,7 @@ exports.updateUserProfile = async (req,res) => {
     user.phone = req.body.phone
     user.healtProblem = req.body.healtProblem
     user.role = req.body.role
+    user.proficiency = req.body.proficiency
     user.save();
     req.flash('success','You updated your profile successfully')
     res.status(200).redirect('/users/dashboard')
