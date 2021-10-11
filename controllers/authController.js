@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const Proficiency = require('../models/Proficiency');
+const Program = require('../models/Program');
 
 exports.createUser = async (req, res) => {
   try {
@@ -58,7 +59,8 @@ exports.getDashboardPage = async (req,res) => {
   try {    
     const user = await User.findOne({_id : req.session.userID}).populate('proficiency')
     const categories = await Category.find();
-    const proficiencies = await Proficiency.find();    
+    const proficiencies = await Proficiency.find();
+    const programs = await Program.find({user: req.session.userID}).populate('category');    
     const page = req.query.page || 1;
     const userPerPage = 5;
     const totalUsers = await User.find().countDocuments();
@@ -70,6 +72,7 @@ exports.getDashboardPage = async (req,res) => {
       user,
       categories,
       proficiencies,
+      programs,
       users,
       current: page,
       pages: Math.ceil(totalUsers / userPerPage)
