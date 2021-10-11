@@ -8,6 +8,7 @@ router.route('/:slug').delete(programController.deleteProgram);
 router.route('/').get(programController.getAllPrograms);
 router.route('/:slug').get(programController.getProgram);
 router.route('/enroll').post(programController.enrollProgram);
+router.route('/release').post(programController.releaseProgram);
 
 
 module.exports = router;

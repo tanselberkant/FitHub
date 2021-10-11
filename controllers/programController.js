@@ -54,15 +54,20 @@ exports.getAllPrograms = async (req,res) => {
 
 exports.getProgram = async (req,res) => {
   try {
+    const user = await User.findById(req.session.userID);
     const program = await Program.findOne({slug : req.params.slug}).populate('user');
     const categories = await Category.find();    
     res.status(200).render('program', {
       page_name : 'programs',
       program,
-      categories
+      categories,
+      user
     })
   } catch (error) {
-    
+    res.status(400).json({
+      status: 'fail',
+      error
+    })
   }
 }
 
@@ -74,6 +79,22 @@ exports.enrollProgram = async (req,res) => {
 
     req.flash('success', 'You have enrolled program successfully');    
     res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error
+    })
+  }
+}
+
+exports.releaseProgram = async (req,res) => {
+  try {
+    
+    const user = await User.findById(req.session.userID)
+    await user.enrolledPrograms.pull({_id : req.body.program_id})
+    await user.save();
+    req.flash('error', 'You dropped a program successfully');
+    res.status(200).redirect('/users/dashboard')
   } catch (error) {
     res.status(400).json({
       status: 'fail',

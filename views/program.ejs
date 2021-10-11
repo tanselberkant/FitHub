@@ -27,12 +27,15 @@
                                 <p class="mytxt2 mb-2" style="font-size: 18px;">
                                     <i class="fa fa-chevron-right mr-1"></i><%= program.contents[x] %>
                                 </p>
-                            <% } %>   
-                            <form method="POST" action="/programs/enroll">
-                                <input type="hidden" name="program_id" value="<%= program._id %>">
-                                <button class="btn btn-success px-4 mb-3 mt-3 ml-5">Enroll</button>
-                            </form>
-                            <!-- <a class="" href="/programs/<%= program.slug %>">Enroll</a>                         -->
+                            <% } %>  
+                            <div id="program-content">                            
+                            <% if (user && !(user.enrolledPrograms.includes(program._id))) { %>
+                                <form method="POST" action="/programs/enroll">
+                                    <input type="hidden" name="program_id" value="<%= program._id %>">
+                                    <button class="btn btn-success px-4 mb-3 mt-3 ml-5">Enroll</button>
+                                </form>                   
+                            <% } %>                                
+                            </div>         
                         </div>
                     </div>
                     <div class="col-md-7">
