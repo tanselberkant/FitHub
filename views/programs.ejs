@@ -1,0 +1,67 @@
+<%- include ('partials/_header.ejs') %>
+
+<div class="back_re mb-3">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-12">
+             <div class="title">
+              <h2>Programs</h2>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-start m-1">
+    <!-- Listing Programs-->
+    <div class="col-lg-10 col-md-10">
+        <div class="row d-flex justify-content-start m-1">
+            <% for(let i = 0; i < programs.length; i++) { %>
+                <div class="col-md-4">
+                    <div class="container">
+                        <div class="myCardContainer">
+                            <div class="myCardPhoto">
+                                <img src="/images/myprograms.jpg">
+                                <div class="myRecommendedWeek"><%= programs[i].recommendedWeek %> Week</div>
+                            </div>
+                            <div class="myCardContent text-center">
+                                <p class="mytxt4"><%= programs[i].name %></p>
+                                <p class="mytxt5"><%= programs[i].category.name %></p>
+                                <!-- <p class="mytxt2"><%= programs[i].contents %></p> -->
+                                <% for(let x = 0; x < 3; x++) { %>
+                                    <p class="mytxt2 mb-2" style="font-size: 18px;">- <%= programs[i].contents[x] %></p>
+                                <% } %>                                                            
+                            </div>
+                            <div class="ml-2 mb-3">
+                                <a class="btn btn-outline-primary px-4 mb-3" href="/programs/<%= programs[i].slug %>">Read More</a>                        
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            
+        </div>
+    </div>
+    <!--Listing Categories-->
+    <div class="col-lg-2 col-md-2" id="customCategory">
+        <div class="footer-links">
+            <h2 class="mt-2 ml-3">Categories</h2>
+            <ul id="customCatUl">
+                <% for(let i = 0; i < categories.length; i++) { %>
+                <li class="customCatli">
+                    <a href="#">
+                        <i class="fa fa-chevron-right mr-1"></i> <%= categories[i].name %>
+                    </a>
+                </li>                
+                <% } %>                             
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<%- include ('partials/_footer.ejs') %>

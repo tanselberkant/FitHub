@@ -1023,3 +1023,18 @@ ul.link_menu li a {
 .table td {
     border: none
 }
+
+
+#customCategory {
+     /* background: #022c53; */
+     border: #022c53 2px solid;
+}
+
+#customCategory h2 {
+     color: #022c53;
+     font-weight: 700;
+}
+
+.customCatli {
+     font-size: 17px;
+}

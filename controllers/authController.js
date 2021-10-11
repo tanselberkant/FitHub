@@ -57,7 +57,7 @@ exports.logOutUser = (req,res) => {
 exports.getDashboardPage = async (req,res) => {
 
   try {    
-    const user = await User.findOne({_id : req.session.userID}).populate('proficiency')
+    const user = await User.findOne({_id : req.session.userID}).populate('proficiency').populate('enrolledPrograms');
     const categories = await Category.find();
     const proficiencies = await Proficiency.find();
     const programs = await Program.find({user: req.session.userID}).populate('category');    
@@ -101,4 +101,17 @@ exports.updateUserProfile = async (req,res) => {
     req.flash('error','Something went wrong!')
     console.log(error);
   }  
+}
+
+exports.deleteUser = async (req,res) => {
+  try {
+    await User.findByIdAndRemove(req.params.id);
+    await Program.deleteMany({ user : req.params.id});
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error
+    })
+  }
 }

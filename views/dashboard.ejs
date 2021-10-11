@@ -4,6 +4,17 @@
 
     <!-----------------------------------  USER ROLE CLIENT ---------------------------------------->
     <% if(user.role === 'client') { %>
+    <div class="back_re">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                    <h2>User Profile</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-11">
@@ -72,24 +83,35 @@
             </div>
         </div>
         <div class="row d-flex justify-content-start m-1">
-            <div class="col-md-4">
-                <div class="container">
-                    <div class="myCardContainer">
-                        <div class="myCardPhoto">
-                            <img src="/images/myprograms.jpg">
-                            <div class="myRecommendedWeek">8 Week</div>
-                        </div>
-                        <div class="myCardContent">
-                            <p class="mytxt4">Program Name</p>
-                            <p class="mytxt5">Program Category</p>
-                            <p class="mytxt2">Program Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse temporibus deleniti adipisci quas ullam ipsum ut accusamus, dicta unde corrupti iusto atque voluptates dolorum aperiam nemo veritatis laborum illo alias.</p>                            
-                        </div>
-                        <div class="myCardFooter">
-                            <a class="btn btn-outline-primary px-4" href="#">Read More</a>
+            
+            <% for(let i = 0; i < user.enrolledPrograms.length; i++) { %>
+                <div class="col-md-4">
+                    <div class="container">
+                        <div class="myCardContainer">
+                            <div class="myCardPhoto">
+                                <img src="/images/myprograms.jpg">
+                                <div class="myRecommendedWeek"><%= user.enrolledPrograms[i].recommendedWeek %> Week</div>
+                            </div>
+                            <div class="myCardContent text-center">
+                                <p class="mytxt4"><%= user.enrolledPrograms[i].name %></p>
+                                <p class="mytxt5"><%= user.enrolledPrograms[i].category.name %></p>
+                                <!-- <p class="mytxt2"><%= user.enrolledPrograms[i].contents %></p> -->
+                                <% for(let x = 0; x < 3; x++) { %>
+                                    <p class="mytxt2 mb-2" style="font-size: 18px;">- <%= user.enrolledPrograms[i].contents[x] %></p>
+                                <% } %>                                                            
+                            </div>
+                            <div class="ml-2 mb-3">
+                                <a class="btn btn-outline-primary px-4 mb-3" href="/programs/<%= user.enrolledPrograms[i].slug %>">Read More</a>
+                                <form method="POST" action="/programs/release">
+                                    <input type="hidden" name="program_id" value="<%= user.enrolledPrograms[i]._id %>">
+                                    <button class="btn btn-outline-danger px-4 mb-3">Release Program </button>                                
+                                </form>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
-            </div>
+            <% } %>
         </div>
         
         
@@ -143,6 +165,17 @@
     
     <!-----------------------------------  USER ROLE AdMIN ---------------------------------------->
     <% if(user.role === 'admin') { %>
+    <div class="back_re">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                    <h2>Admin DashBoard</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-11">
@@ -219,7 +252,7 @@
                             <button class="btn-sm btn-warning" data-toggle="modal" data-target="#update<%= users[i]._id %>"> Upd </button>
                         </td>
                         <td class="pt-3">
-                            <a class="btn-sm btn-danger">Del</a>
+                            <a class="btn-sm btn-danger" href="/users/<%= users[i]._id %>?_method=DELETE" onclick="return confirm('Are You Sure')">Del</a>
                         </td>
                     </tr>
                     <!-- Update User Modal -->
@@ -432,6 +465,17 @@
 
     <!-----------------------------------  USER ROLE TRAINER ---------------------------------------->
     <% if(user.role === 'trainer') { %>
+    <div class="back_re">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                    <h2>Trainer Dashboard</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-11">
