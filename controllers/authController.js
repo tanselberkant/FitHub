@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const Proficiency = require('../models/Proficiency');
@@ -22,22 +23,21 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = (req, res) => {
   try {
-    const { email, password} = req.body;
+    const { email, password } = req.body;
     User.findOne({ email: email }, (err, user) => {
       if (user) {
         bcrypt.compare(password, user.password, (err, success) => {
           if (success) {
             req.session.userID = user._id;
             res.status(200).redirect('/');
-          }
-          else {
-            req.flash('error','Your password is not correct')
-            res.status(400).redirect('/login')    
+          } else {
+            req.flash('error', 'Your password is not correct');
+            res.status(400).redirect('/login');
           }
         });
       } else {
-        req.flash('error', 'User is Not Exist!')
-        res.status(400).redirect('/login')
+        req.flash('error', 'User is Not Exist!');
+        res.status(400).redirect('/login');
       }
     });
   } catch (error) {
@@ -48,24 +48,30 @@ exports.loginUser = (req, res) => {
   }
 };
 
-exports.logOutUser = (req,res) => {
+exports.logOutUser = (req, res) => {
   req.session.destroy(() => {
-    res.redirect('/')
-  })
-}
+    res.redirect('/');
+  });
+};
 
-exports.getDashboardPage = async (req,res) => {
-
-  try {    
-    const user = await User.findOne({_id : req.session.userID}).populate('proficiency').populate('enrolledPrograms');
+exports.getDashboardPage = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.session.userID })
+      .populate('proficiency')
+      .populate('enrolledPrograms');
     const categories = await Category.find();
     const proficiencies = await Proficiency.find();
-    const programs = await Program.find({user: req.session.userID}).populate('category');    
+    const programs = await Program.find({ user: req.session.userID }).populate(
+      'category'
+    );
     const page = req.query.page || 1;
     const userPerPage = 5;
     const totalUsers = await User.find().countDocuments();
 
-    const users = await User.find().sort('-createdAt').skip((page - 1) * userPerPage).limit(userPerPage)
+    const users = await User.find()
+      .sort('-createdAt')
+      .skip((page - 1) * userPerPage)
+      .limit(userPerPage);
 
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
@@ -75,43 +81,76 @@ exports.getDashboardPage = async (req,res) => {
       programs,
       users,
       current: page,
-      pages: Math.ceil(totalUsers / userPerPage)
-    })
+      pages: Math.ceil(totalUsers / userPerPage),
+    });
   } catch (error) {
     res.status(400).json({
       status: 'fail',
-      error
-    })
+      error,
+    });
   }
-}
+};
 
-exports.updateUserProfile = async (req,res) => {
-  try {    
-    const user = await User.findOne({_id: req.params.id})
-    user.height = req.body.height
-    user.weight = req.body.weight
-    user.phone = req.body.phone
-    user.healtProblem = req.body.healtProblem
-    user.role = req.body.role
-    user.proficiency = req.body.proficiency
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    user.height = req.body.height;
+    user.weight = req.body.weight;
+    user.phone = req.body.phone;
+    user.healtProblem = req.body.healtProblem;
+    user.role = req.body.role;
+    user.proficiency = req.body.proficiency;
     user.save();
-    req.flash('success','You updated your profile successfully')
-    res.status(200).redirect('/users/dashboard')
+    req.flash('success', 'You updated your profile successfully');
+    res.status(200).redirect('/users/dashboard');
   } catch (error) {
-    req.flash('error','Something went wrong!')
+    req.flash('error', 'Something went wrong!');
     console.log(error);
-  }  
-}
+  }
+};
 
-exports.deleteUser = async (req,res) => {
+exports.deleteUser = async (req, res) => {
   try {
     await User.findByIdAndRemove(req.params.id);
-    await Program.deleteMany({ user : req.params.id});
+    await Program.deleteMany({ user: req.params.id });
     res.status(200).redirect('/users/dashboard');
   } catch (error) {
     res.status(400).json({
       status: 'fail',
+      error,
+    });
+  }
+};
+
+exports.addUserPicture = async (req, res) => {
+  try {
+    
+    const user = await User.findById({_id: req.params.id})
+
+    const myUserId = user._id;
+
+    const uploadDir = 'public/uploads';
+    let myRandom = (Math.random() + 1).toString(36).substring(7);
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+
+    let profilePhoto = req.files.image;
+    let uploadPath =
+      __dirname + '/../public/uploads/' + myRandom + profilePhoto.name;
+
+    profilePhoto.mv(uploadPath, async () => {
+      await User.findByIdAndUpdate(myUserId,{        
+        ...req.body,
+        image: '/uploads/' + myRandom + profilePhoto.name,
+      });
+      req.flash('success', 'You have added a profile picture succesfully');
+      res.status(200).redirect('/users/dashboard');
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
       error
     })
   }
-}
+};

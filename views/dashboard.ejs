@@ -70,7 +70,9 @@
                             <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#updateMyProfile">
                                 Update Profile
                             </button> 
-                            
+                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#addProfilePicture">
+                                Add Profile Picture
+                            </button> 
                         </div>
                     </div>
                 </div>
@@ -152,6 +154,51 @@
                     </div> -->
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success">Update</button>
+                    </div>                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Add Profile Picture Modal -->
+    <div class="modal fade" id="addProfilePicture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Profile Picture</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/users/picture/<%= user._id %>?_method=PUT" enctype="multipart/form-data">
+                    <!-- <div class="form-group">
+                        <input type="hidden" name="enrolledPrograms" class="form-control" value="<%= user.enrolledPrograms %>">
+                    </div> -->
+                    <div class="form-group">
+                        <input type="hidden" name="role" class="form-control" value="<%= user.role %>">
+                    </div>                    
+                    <div class="form-group">
+                        <input type="hidden" name="height" class="form-control" value="<%= user.height %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="weight" class="form-control" value="<%= user.weight %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="phone" class="form-control" value="<%= user.phone %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="healtProblem"  value="<%= user.healtProblem %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" name="image">
+                    </div> 
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success">Add Picture</button>
                     </div>                    
                 </form>
             </div>

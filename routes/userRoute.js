@@ -22,5 +22,6 @@ router.route('/logout').get(authController.logOutUser);
 router.route('/dashboard').get(authController.getDashboardPage);
 router.route('/dashboard/:id').put(authController.updateUserProfile);
 router.route('/:id').delete(authController.deleteUser);
+router.route('/picture/:id').put(authController.addUserPicture);
 
 module.exports = router;
