@@ -1,4 +1,5 @@
 const logger = require('../logger')
+const User = require('../models/User');
 
 exports.getIndexPage = (req, res) => {
   logger.info(req.session.userID);
@@ -31,10 +32,13 @@ exports.getServicesPage = (req, res) => {
   });
 };
 
-exports.getTrainersPage = (req, res) => {
+exports.getTrainersPage = async (req, res) => {
+  const trainers = await User.find({role : 'trainer'}).populate('proficiency')
+
   res.status(200).render('trainer', {
-    page_name:'trainer'
-  });
+    page_name : 'trainer',
+    trainers
+  })
 };
 
 exports.getLoginPage = (req,res) => {
