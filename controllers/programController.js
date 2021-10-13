@@ -37,8 +37,32 @@ exports.deleteProgram = async (req, res) => {
 
 exports.getAllPrograms = async (req,res) => {
   try {
-    const programs = await Program.find();
+
+    const categorySlug = req.query.categories;
+    const query = req.query.search;
+
+    const category = await Category.findOne({slug: categorySlug});
+
+    let filter = {};
+
+    if(categorySlug) {
+      filter = {category: category._id};
+    } 
+
+    if(!query && !categorySlug) {
+      filter.name = "",
+      filter.category = null;
+    }
+
+    const programs = await Program.find({
+      $or:[
+        {name: { $regex: '.*' + filter.name + '.*', $options: 'i'}},
+        {category: filter.category}
+        ]       
+    }).sort('-createdAt');
+
     const categories = await Category.find();
+
     res.status(200).render('programs', {
       page_name : 'programs',
       programs,
